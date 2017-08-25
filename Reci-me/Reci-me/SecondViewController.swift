@@ -1,49 +1,57 @@
 //
 //  SecondViewController.swift
-//  Reci-me
+//  recime
 //
-//  Created by Yue Li on 22/8/17.
+//  Created by Yue Li on 24/8/17.
 //  Copyright © 2017 Yue Li. All rights reserved.
 //
 
 import UIKit
 
-class SecondViewController: UIViewController {
+class SecondViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    @IBOutlet weak var tableView: UITableView!
 
+    var tabledata:[String] = ["EGG",
+                              "TOMATOES",
+                              "CUCAMBER",
+                              "MILK",
+                              "PEACH",
+                              "PEACH",
+                              "PEACH",
+                              "PEACH",
+                              "PEACH",
+                              "PEACH",
+                              "PEACH",
+                              "PEACH",
+                              "PEACH",
+                              "PEAR"]
     
-    
-    @IBOutlet weak var myingredienttable: UITableView!
-    
-    let ingredient: [String] = ["sdf453asf","sdfasf","sdfasf","sdfa435sf","sdfasf","sdfa43534sf","sdfasf","sdfasf","sdfa34534sf","sdfas43534f","sdfasf","sdfasf","sdfasf","sdfa453sf"]
-
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        myingredienttable.dataSource = self
-        myingredienttable.delegate = self
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.estimatedRowHeight = 44
+        tableView.rowHeight = UITableViewAutomaticDimension
     }
-}
-
-extension SecondViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ingredient.count
+        return tabledata.count
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! IngredientCell
+        var cell = tableView.dequeueReusableCell(withIdentifier: "cell")
         
-        cell.ingredientlabel.text = ingredient[indexPath.row]
-        
-        return cell
-    }
-}
-
-extension SecondViewController: UITableViewDelegate {
-
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.layer.transform = CATransform3DMakeScale(0.1, 0.1, 1.0)
-        
-        UIView.animate(withDuration: 0.5, animations: {cell.layer.transform = CATransform3DMakeScale(1.0, 1.0, 1.0)}, completion: nil)
+        if cell == nil {
+            cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
+        }
+        cell!.textLabel?.text = tabledata[indexPath.row]
+        cell!.textLabel?.numberOfLines = 0
+        return cell!
     }
 }
